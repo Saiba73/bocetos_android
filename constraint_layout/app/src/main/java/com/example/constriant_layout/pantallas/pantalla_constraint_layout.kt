@@ -34,7 +34,7 @@ fun PantallaDeCuadros(){
         val (caja_a, caja_b, caja_c, caja_d, caja_e, caja_f, caja_g, caja_h, caja_i, caja_j, caja_k) = createRefs()
         val josue =createRef()
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_a){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_a){
             top.linkTo(parent.top)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
@@ -50,7 +50,7 @@ fun PantallaDeCuadros(){
             }
         }
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_b){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_b){
             top.linkTo(caja_a.bottom, margin = 50.dp)
             start.linkTo(parent.start)
             end.linkTo(caja_c.start)
@@ -63,77 +63,77 @@ fun PantallaDeCuadros(){
         }
 
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_c){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_c){
             top.linkTo(caja_a.bottom, margin = 50.dp)
             start.linkTo(caja_b.end)
             end.linkTo(parent.end)
         }){
-            Text("C")
+            Text("C", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_d){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_d){
             top.linkTo(caja_b.bottom, margin = 50.dp)
             start.linkTo(parent.start)
             end.linkTo(caja_e.start)
         }){
-            Text("D")
+            Text("D", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_e){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_e){
             top.linkTo(caja_b.bottom, margin = 50.dp)
             start.linkTo(caja_d.start)
             end.linkTo(caja_f.end)
         }){
-            Text("E")
+            Text("E", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_f){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_f){
             top.linkTo(caja_c.bottom, margin = 50.dp)
             start.linkTo(caja_e.end)
             end.linkTo(parent.end)
         }){
-            Text("F")
+            Text("F", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_g){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_g){
             top.linkTo(caja_f.bottom, margin = 50.dp)
             start.linkTo(parent.start)
             end.linkTo(caja_i.start)
         }){
-            Text("G")
+            Text("G", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_h){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_h){
             top.linkTo(caja_g.bottom, margin = 50.dp)
             start.linkTo(parent.start)
             end.linkTo(caja_i.start)
         }){
-            Text("H")
+            Text("H", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
-        Box(modifier = Modifier.size(tamaño_de_cajas * 2.65f).background(Color.DarkGray).constrainAs(caja_i){
+        Box(modifier = Modifier.size(tamaño_de_cajas * 2.65f).background(Color.Blue).constrainAs(caja_i){
             top.linkTo(caja_f.bottom, margin = 50.dp)
             start.linkTo(caja_g.start, margin = 80 .dp)
             end.linkTo(parent.end)
         }){
-            Text("I")
+            Text("I", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_j){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_j){
             top.linkTo(caja_h.bottom, margin = 50.dp)
             start.linkTo(parent.start)
             end.linkTo(caja_k.end)
         }){
-            Text("J")
+            Text("J", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
-        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.DarkGray).constrainAs(caja_k){
+        Box(modifier = Modifier.size(tamaño_de_cajas).background(Color.Blue).constrainAs(caja_k){
             top.linkTo(caja_h.bottom, margin = 50.dp)
             start.linkTo(caja_j.start)
             end.linkTo(parent.end)
         }){
-            Text("K")
+            Text("K", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = TextStyle(Color.White))
         }
 
     }

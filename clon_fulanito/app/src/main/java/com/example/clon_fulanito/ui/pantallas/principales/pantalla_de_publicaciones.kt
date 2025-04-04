@@ -33,7 +33,7 @@ fun PantallaDePublicaciones(modifier: Modifier, vm_fulanito: FulanitoViewModel, 
             Text("Aqui deberia colocar una barra de cargando")
         }
         else {
-            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.fillMaxSize()) {
+            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.fillMaxSize().background(color = Color.LightGray)) {
                 items(publicaciones_descargadas){ publicacion ->
                     // Cuando se usa el .clickeable de modifier, debe ser el ultimo en la cadena de MOdifier
                     Column(modifier = Modifier.clickable {
@@ -41,9 +41,9 @@ fun PantallaDePublicaciones(modifier: Modifier, vm_fulanito: FulanitoViewModel, 
                         navegar_siguiente()
                         }
                         .padding(15.dp)) {
-                        Text("Titulo: ${publicacion.title}")
+                        Text("Titulo: ${publicacion.title}", color = Color.White)
                         Text("${publicacion.body}")
-                        HorizontalDivider()
+                        HorizontalDivider(color = Color.Black, thickness = 3.dp)
                     }
                 }
 
