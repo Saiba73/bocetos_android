@@ -6,8 +6,8 @@ import com.example.clon_fulanito.modelos.swapi.PaginaContenedora
 class RepositorioSWAPI{
     private val servicio_swapi = InstanciaRetrofitSAPI.consumir_servicio
 
-    suspend fun  obtener_naves_espaciales():PaginaContenedora{
-        return servicio_swapi.obtenerNavesEspaciales()
+    suspend fun  obtener_naves_espaciales(pagina: Int):PaginaContenedora{
+        return servicio_swapi.obtenerNavesEspaciales(pagina)
     }
 
     suspend fun obtener_nave(id: Int): NaveEspacial{

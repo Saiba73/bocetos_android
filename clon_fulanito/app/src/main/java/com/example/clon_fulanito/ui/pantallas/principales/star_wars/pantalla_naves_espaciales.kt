@@ -27,7 +27,7 @@ import com.example.clon_fulanito.vista_modelos.SWAPIModelo
 import kotlin.math.round
 
 @Composable
-fun PantallaNavesEspaciales(modifier: Modifier){
+fun PantallaNavesEspaciales(modifier: Modifier, vm_swapi: SWAPIModelo){
     val vm_swapi = SWAPIModelo()
 
     val pagina_actual by vm_swapi.pagina_actual.observeAsState(null)
@@ -59,12 +59,12 @@ fun PantallaNavesEspaciales(modifier: Modifier){
             ) {
                 Text("Pagina anterior",
                     modifier = Modifier.background(color = Color.Green).clickable {
-                        Log.v("STARWARS", "Pagina anterior de naves")
+                        vm_swapi.pasar_a_anterior_pagina()
                     })
 
                 Text("Pagina siguiente",
                     modifier = Modifier.background(color = Color.Green).clickable {
-                        Log.v("STARWARS", "Pagina siguiente de naves")
+                        vm_swapi.pasar_a_siguiente_pagina()
                     })
             }
 
