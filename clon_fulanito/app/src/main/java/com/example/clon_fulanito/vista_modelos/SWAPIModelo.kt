@@ -9,6 +9,16 @@ import com.example.clon_fulanito.API.SWAPI.RepositorioSWAPI
 import com.example.clon_fulanito.modelos.swapi.PaginaContenedora
 import kotlinx.coroutines.launch
 
+enum class Estados{
+    cargando,
+    mostrando_lista_de_naves,
+    mostrando_nave,
+    error,
+    registrarFrustracion
+}
+
+
+
 class SWAPIModelo: ViewModel(){
     private val repositorio = RepositorioSWAPI()
 
@@ -17,16 +27,22 @@ class SWAPIModelo: ViewModel(){
 
     private var pagina_siguiente: String? = null
 
+    private val _estado_actual = MutableLiveData<Estados>(Estados.cargando)
+    val estado_actual: LiveData<Estados> = _estado_actual
+
     fun descargar_pagina(pagina: Int = 1){
+        _estado_actual.postValue(Estados.cargando)
         Log.v("Cargando pagina", "pagina: ${pagina}")
         viewModelScope.launch {
             try{
                 val pagina = repositorio.obtener_naves_espaciales(pagina)
-                pagina_siguiente = pagina.next
+                //pagina_siguiente = pagina.next
                 _pagina_actual.postValue(pagina)
+                _estado_actual.postValue(Estados.mostrando_lista_de_naves)
             }
             catch (error: Exception){
                 Log.v("DESCARGA DE PAGINA SWAPI", "${error.message}")
+                _estado_actual.postValue(Estados.error)
             }
         }
     }
@@ -53,5 +69,9 @@ class SWAPIModelo: ViewModel(){
             Log.v("Cargando pagina", "pagina-siguiente: ${pagina_anterior}")
         }
 
+    }
+
+    fun indicar_un_problema(){
+        _estado_actual.postValue(Estados.registrarFrustracion)
     }
 }
