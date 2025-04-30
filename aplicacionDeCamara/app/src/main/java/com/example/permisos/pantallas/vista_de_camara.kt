@@ -1,7 +1,13 @@
 package com.example.permisos.pantallas
 
+import android.content.ContentValues
 import android.content.Context
+import android.os.Build
+import android.provider.MediaStore
+import android.util.Log
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -35,11 +41,13 @@ fun PantallaCamara(){
 
     val camaraX_selector = CameraSelector.Builder().requireLensFacing(lente_a_usar).build()
 
+    val capturador_de_imagen = remember { ImageCapture.Builder().build() }
+
     LaunchedEffect(lente_a_usar) {
         val proveedor_loca_camara = contexto.obtenerProveedorDeCamara()
         proveedor_loca_camara.unbindAll()
 
-        proveedor_loca_camara.bindToLifecycle(ciclo_vida_dueño, camaraX_selector, prevista)
+        proveedor_loca_camara.bindToLifecycle(ciclo_vida_dueño, camaraX_selector, prevista, capturador_de_imagen)
         prevista.setSurfaceProvider(vista_prevista.surfaceProvider)
     }
 
@@ -48,7 +56,7 @@ fun PantallaCamara(){
     Box(contentAlignment = Alignment.BottomCenter){
         AndroidView(factory = { vista_prevista }, modifier = Modifier.fillMaxSize())
 
-        Button(onClick = {}){
+        Button(onClick = { tomar_foto(capturador_de_imagen, contexto) }){
             Text("Hola MUndo")
         }
 
@@ -66,3 +74,35 @@ private suspend fun Context.obtenerProveedorDeCamara(): ProcessCameraProvider =
             }, ContextCompat.getMainExecutor(this))
         }
     }
+
+private fun tomar_foto(capaturador_imagen: ImageCapture, contexto: Context){
+    val nombre_archivo = "CapturaFoto.jpeg"
+
+    val valores_del_contenido = ContentValues().apply{
+        put(MediaStore.MediaColumns.DISPLAY_NAME, nombre_archivo)
+        put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P){
+            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/nuestra_app")
+        }
+    }
+
+    val salida_foto = ImageCapture.OutputFileOptions.Builder(
+        contexto.contentResolver,
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        valores_del_contenido
+    ).build()
+
+    capaturador_imagen.takePicture(
+        salida_foto,
+        ContextCompat.getMainExecutor(contexto),
+        object: ImageCapture.OnImageSavedCallback{
+            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                Log.v("CAPTURA_EXITO", "Exito, no ha pasado nada")
+            }
+
+            override fun onError(exception: ImageCaptureException) {
+                Log.v("CAPTURA_ERROR", "Se identifico el siguiente error: ${exception.message}")
+            }
+        }
+    )
+}
