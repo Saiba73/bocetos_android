@@ -11,17 +11,24 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import kotlin.coroutines.resume
@@ -29,39 +36,60 @@ import kotlin.coroutines.suspendCoroutine
 
 @Composable
 fun PantallaCamara(){
-    val lente_a_usar = CameraSelector.LENS_FACING_BACK
     val ciclo_vida_dueño = LocalLifecycleOwner.current
-
     val contexto = LocalContext.current
 
-    val prevista = Preview.Builder().build()
-    val vista_prevista = remember {
-        PreviewView(contexto)
-    }
+    var lente_a_usar by remember { mutableStateOf(CameraSelector.LENS_FACING_BACK) }
 
-    val camaraX_selector = CameraSelector.Builder().requireLensFacing(lente_a_usar).build()
 
+    val prevista = remember { Preview.Builder().build() }
     val capturador_de_imagen = remember { ImageCapture.Builder().build() }
+    val vista_prevista = remember { PreviewView(contexto) }
+
+    //val camaraX_selector = CameraSelector.Builder().requireLensFacing(lente_a_usar).build()
+
+
 
     LaunchedEffect(lente_a_usar) {
-        val proveedor_loca_camara = contexto.obtenerProveedorDeCamara()
-        proveedor_loca_camara.unbindAll()
+        val proveedor_local_camara = contexto.obtenerProveedorDeCamara()
+        proveedor_local_camara.unbindAll()
 
-        proveedor_loca_camara.bindToLifecycle(ciclo_vida_dueño, camaraX_selector, prevista, capturador_de_imagen)
+        val selector = CameraSelector.Builder().requireLensFacing(lente_a_usar).build()
+
+        proveedor_local_camara.bindToLifecycle(
+            ciclo_vida_dueño,
+            selector,
+            prevista,
+            capturador_de_imagen
+        )
+
+        //proveedor_local_camara.bindToLifecycle(ciclo_vida_dueño, camaraX_selector, prevista, capturador_de_imagen)
         prevista.setSurfaceProvider(vista_prevista.surfaceProvider)
     }
 
-    
 
-    Box(contentAlignment = Alignment.BottomCenter){
-        AndroidView(factory = { vista_prevista }, modifier = Modifier.fillMaxSize())
 
-        Button(onClick = { tomar_foto(capturador_de_imagen, contexto) }){
-            Text("Hola MUndo")
+    Box(Modifier.fillMaxSize()){
+        AndroidView(factory = {vista_prevista}, modifier = Modifier.fillMaxSize())
+
+        Column(Modifier.fillMaxSize().padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Button(onClick = {
+                lente_a_usar = if(lente_a_usar == CameraSelector.LENS_FACING_BACK)
+                    CameraSelector.LENS_FACING_FRONT
+                else
+                    CameraSelector.LENS_FACING_BACK
+            }) {
+                Text("Voltear Camara")
+            }
+
+            Button(onClick = {tomar_foto(capturador_de_imagen, contexto)}) {Text("Tomar Foto")}
         }
-
     }
 }
+
 
 
 

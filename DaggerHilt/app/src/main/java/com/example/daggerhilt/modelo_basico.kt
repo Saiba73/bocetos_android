@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VistaModeloPublicaciones @Inject constructor(): ViewModel(){
-    var publicaciones = mutableStateOf("texto loco")
+    var publicaciones = mutableStateOf("Escribe tu nombre aqui")
 }

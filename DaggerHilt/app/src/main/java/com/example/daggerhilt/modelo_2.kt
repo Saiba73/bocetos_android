@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VistaModeloCometarios @Inject constructor(): ViewModel(){
-    var comentarios = mutableStateOf("texto loco")
+    var comentarios = mutableStateOf("Escribe texto aqui")
 }
